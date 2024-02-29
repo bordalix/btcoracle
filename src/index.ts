@@ -11,7 +11,7 @@ const handleRequest = async () => {
   const prices = await getPrices()
   const eur = findMedianPrice(prices, Coin.eur)
   const usd = findMedianPrice(prices, Coin.usd)
-  const json = JSON.stringify({ eur, usd, feed: prices })
+  const json = JSON.stringify({ eur, usd })
   const response = new Response(json, {
     headers: {
       'content-type': 'application/json;charset=UTF-8',
