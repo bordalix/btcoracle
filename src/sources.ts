@@ -1,4 +1,4 @@
-import { Source } from './types';
+import { Source } from './types'
 
 export const sources: Source[] = [
   {
@@ -133,4 +133,4 @@ export const sources: Source[] = [
     }),
     url: 'https://api.peachbitcoin.com/v1/market/price/BTCEUR',
   },
-];
+]
