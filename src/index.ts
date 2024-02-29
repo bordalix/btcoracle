@@ -1,5 +1,5 @@
-import { Coin } from './types'
-import { findMedianPrice, getPrices } from './utils'
+import Decimal from 'decimal.js'
+import { getPrices } from './prices'
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -8,10 +8,12 @@ const corsHeaders = {
 }
 
 const handleRequest = async () => {
-  const prices = await getPrices()
-  const eur = findMedianPrice(prices, Coin.eur)
-  const usd = findMedianPrice(prices, Coin.usd)
-  const json = JSON.stringify({ eur, usd })
+  const json = JSON.stringify({
+    pricefeed: await getPrices(),
+    publickey: 'publickey',
+    signature: 'signature',
+    timestamp: Decimal.floor(Decimal.div(Date.now(), 1000)).toNumber(),
+  })
   const response = new Response(json, {
     headers: {
       'content-type': 'application/json;charset=UTF-8',

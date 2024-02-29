@@ -8,7 +8,19 @@ Returned JSON:
 
 ```JSON
 {
-  "eur": 40223.35,
-  "usd": 43869.18
+  "pricefeed": {
+    "eur": 58031.63,
+    "usd": 62977.6
+  },
+  "publickey": "publickey",
+  "signature": "signature",
+  "timestamp": 1709207259
 }
+```
+
+### Dev
+
+```
+$ yarn dev
+$ yarn deploy
 ```
