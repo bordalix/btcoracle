@@ -3,6 +3,10 @@ export enum Coin {
   usd = 'usd',
 }
 
+export interface Env {
+  PRIVATEKEY: string
+}
+
 export interface Price {
   [Coin.eur]?: number
   [Coin.usd]?: number

@@ -13,6 +13,7 @@
     "wrangler": "^3.0.0"
   },
   "dependencies": {
+    "@noble/curves": "^1.3.0",
     "decimal.js": "^10.4.3"
   }
 }

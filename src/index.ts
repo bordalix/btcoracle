@@ -1,5 +1,6 @@
-import Decimal from 'decimal.js'
 import { getPrices } from './prices'
+import { getPubKey, sign } from './schnorr'
+import { Env } from './types'
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -7,13 +8,14 @@ const corsHeaders = {
   'Access-Control-Max-Age': '86400',
 }
 
-const handleRequest = async () => {
-  const json = JSON.stringify({
+const handleRequest = async (env: Env) => {
+  const data = {
     pricefeed: await getPrices(),
-    publickey: 'publickey',
-    signature: 'signature',
-    timestamp: Decimal.floor(Decimal.div(Date.now(), 1000)).toNumber(),
-  })
+    timestamp: Math.floor(Date.now() / 1000),
+    publickey: getPubKey(env.PRIVATEKEY),
+  }
+  const signature = sign(data, env.PRIVATEKEY)
+  const json = JSON.stringify({ ...data, signature })
   const response = new Response(json, {
     headers: {
       'content-type': 'application/json;charset=UTF-8',
@@ -49,11 +51,11 @@ async function handleOptions(request: Request) {
 }
 
 export default {
-  async fetch(request: Request): Promise<Response> {
+  async fetch(request: Request, env: Env): Promise<Response> {
     if (request.method === 'OPTIONS') {
       return handleOptions(request)
     } else if (request.method === 'GET') {
-      return handleRequest()
+      return handleRequest(env)
     } else {
       return new Response(null, {
         status: 405,
