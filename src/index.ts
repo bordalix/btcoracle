@@ -1,3 +1,4 @@
+import { Coin } from './types';
 import { findMedianPrice, getPrices } from './utils';
 
 const corsHeaders = {
@@ -8,8 +9,8 @@ const corsHeaders = {
 
 const handleRequest = async () => {
   const prices = await getPrices();
-  const eur = findMedianPrice(prices, 'eur');
-  const usd = findMedianPrice(prices, 'usd');
+  const eur = findMedianPrice(prices, Coin.eur);
+  const usd = findMedianPrice(prices, Coin.usd);
   const json = JSON.stringify({ eur, usd, feed: prices });
   const response = new Response(json, {
     headers: {

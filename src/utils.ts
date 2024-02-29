@@ -1,5 +1,5 @@
 import Decimal from 'decimal.js';
-import { Source, Price } from './types';
+import { Source, Price, Coin } from './types';
 import { sources } from './sources';
 
 const get = async (url: string): Promise<any> => {
@@ -30,18 +30,21 @@ export const getPrices = async (): Promise<Source[]> => {
   return sources;
 };
 
-export const sortByPrice = (sources: Source[], coin: string): Source[] =>
+const sortByPrice = (sources: Source[], coin: Coin): Source[] =>
   sources
     .filter((source) => source.price?.[coin])
     .sort((a, b) => a.price?.[coin]! - b.price?.[coin]!);
 
-export const findMedianPrice = (sources: Source[], coin = 'usd'): number => {
+const average = (a: number, b: number): number =>
+  Decimal.div(Decimal.sum(a, b), 2).toNumber();
+
+export const findMedianPrice = (sources: Source[], coin: Coin): number => {
   const arr = sortByPrice(sources, coin);
   const midIndex = Decimal.floor(arr.length / 2).toNumber();
   const odd = arr.length % 2 === 1;
   if (odd) return arr[midIndex].price?.[coin]!;
-  return Decimal.div(
-    Decimal.sum(arr[midIndex].price?.[coin]!, arr[midIndex + 1].price?.[coin]!),
-    2
-  ).toNumber();
+  return average(
+    arr[midIndex].price?.[coin]!,
+    arr[midIndex + 1].price?.[coin]!
+  );
 };

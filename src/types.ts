@@ -1,4 +1,12 @@
-export type Price = Record<string, number>;
+export enum Coin {
+  eur = 'eur',
+  usd = 'usd',
+}
+
+export interface Price {
+  [Coin.eur]?: number;
+  [Coin.usd]?: number;
+}
 
 export interface Source {
   name: string;
