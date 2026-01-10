@@ -36,7 +36,7 @@ const sortByPrice = (sources: Source[], coin: Coin): Source[] =>
     .sort((a, b) => a.price?.[coin]! - b.price?.[coin]!)
 
 const average = (a: number, b: number): number =>
-  Decimal.div(Decimal.sum(a, b), 2).toNumber()
+  Decimal.div(Decimal.sum(a, b), 2).toDecimalPlaces(2).toNumber()
 
 const findMedianPrice = (sources: Source[], coin: Coin): number => {
   const arr = sortByPrice(sources, coin)
