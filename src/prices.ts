@@ -9,7 +9,7 @@ const get = async (url: string): Promise<any> => {
         'Content-Type': 'application/json',
       },
     })
-    return await res.json()
+    if (res.ok) return await res.json()
   } catch (error) {
     console.log('error', error)
   }
@@ -25,7 +25,7 @@ const getPriceFromSource = async (source: Source): Promise<Price> => {
 
 const getPricesFromSources = async (): Promise<Source[]> => {
   await Promise.allSettled(
-    sources.map(async (s) => (s.price = await getPriceFromSource(s)))
+    sources.map(async (s) => (s.price = await getPriceFromSource(s))),
   )
   return sources
 }
